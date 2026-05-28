@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Step 3 Auth Memo
 
-## Getting Started
+本番公開しながらアプリ開発を学ぶロードマップの Step 3 です。
 
-First, run the development server:
+## 目的
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Step 2のCRUDメモアプリに、ログインとDB保存を追加します。
+
+- Supabase Authでログインする
+- ログインユーザーごとにメモを保存する
+- Supabase DBにCRUDする
+- Row Level Securityで他人のメモを見えないようにする
+
+## 構成
+
+```text
+ユーザー
+  ↓
+Next.js画面
+  ↓
+Supabase Auth
+  ↓
+Supabase DB
+  ↓
+Row Level Security
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 使用技術
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Supabase Auth
+- Supabase Database
+- Row Level Security
+- lucide-react
+- Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Supabaseセットアップ
 
-## Learn More
+1. Supabaseで新しいProjectを作成する
+2. SQL Editorで `supabase/schema.sql` を実行する
+3. Project Settings > API から以下を取得する
+   - Project URL
+   - anon public key
+4. `.env.local` を作成する
 
-To learn more about Next.js, take a look at the following resources:
+```powershell
+Copy-Item .env.example .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`.env.local` に設定します。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-## Deploy on Vercel
+## ローカル起動
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```powershell
+& 'C:\Program Files\nodejs\npm.cmd' run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 確認コマンド
+
+```powershell
+& 'C:\Program Files\nodejs\npm.cmd' run lint
+& 'C:\Program Files\nodejs\npm.cmd' run build
+```
+
+## Vercel環境変数
+
+Vercel Project Settings > Environment Variables に以下を設定します。
+
+```text
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+```
+
+設定後、再デプロイします。
+
+## Step 3の完了条件
+
+- メールアドレスとパスワードで登録できる
+- ログインできる
+- ログアウトできる
+- ログインユーザーごとにメモを保存できる
+- 他人のメモが見えない
+- 本番ビルドが成功する
+- GitHubにpushされている
+- Vercelで公開されている
