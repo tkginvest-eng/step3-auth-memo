@@ -159,7 +159,13 @@ export default function Home() {
     const action =
       authMode === "sign-in"
         ? supabase.auth.signInWithPassword({ email, password })
-        : supabase.auth.signUp({ email, password });
+        : supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: `${window.location.origin}/auth/callback`,
+            },
+          });
 
     const { error } = await action;
     setIsSaving(false);
@@ -171,7 +177,7 @@ export default function Home() {
 
     setAuthMessage(
       authMode === "sign-up"
-        ? "登録しました。メール確認が必要な場合は受信箱を確認してください。"
+        ? "登録しました。確認メールを開くと、このアプリへ戻ってログイン状態になります。"
         : "ログインしました。",
     );
   }

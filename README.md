@@ -57,6 +57,31 @@ NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
+## メール認証をONにする場合
+
+Supabaseでメール確認をONにする場合は、確認メールの戻り先を許可する必要があります。
+
+Supabase Dashboard > Authentication > URL Configuration で設定します。
+
+Site URL:
+
+```text
+https://step3-auth-memo.vercel.app
+```
+
+Redirect URLs:
+
+```text
+https://step3-auth-memo.vercel.app/auth/callback
+http://localhost:3003/auth/callback
+```
+
+VercelのPreview URLも使う場合は、必要に応じて以下のようなワイルドカードを追加します。
+
+```text
+https://*.vercel.app/auth/callback
+```
+
 ## ローカル起動
 
 ```powershell
