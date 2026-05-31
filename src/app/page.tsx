@@ -19,7 +19,12 @@ import {
   X,
 } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { hasSupabaseConfig, Memo, supabase } from "@/lib/supabase";
+import {
+  hasSupabaseConfig,
+  Memo,
+  supabase,
+  supabaseConfigStatus,
+} from "@/lib/supabase";
 
 type Draft = {
   title: string;
@@ -266,10 +271,24 @@ export default function Home() {
             <h1 className="text-3xl font-bold">Supabase設定が必要です</h1>
           </div>
           <p className="mt-4 leading-7 text-[#4d584f]">
-            Step 3はSupabase AuthとDBを使います。`.env.local` またはVercelの環境変数に以下を設定してください。
+            Step 3はSupabase AuthとDBを使います。以下の不足項目を `.env.local` またはVercelの環境変数に設定してください。
           </p>
+          <div className="mt-5 grid gap-2">
+            <div className="flex items-center justify-between border border-[#18201c]/10 bg-[#f7faf7] px-4 py-3">
+              <span className="font-semibold">NEXT_PUBLIC_SUPABASE_URL</span>
+              <span className={supabaseConfigStatus.hasUrl ? "font-bold text-[#386047]" : "font-bold text-[#b94a48]"}>
+                {supabaseConfigStatus.hasUrl ? "設定済み" : "未設定"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between border border-[#18201c]/10 bg-[#f7faf7] px-4 py-3">
+              <span className="font-semibold">NEXT_PUBLIC_SUPABASE_ANON_KEY</span>
+              <span className={supabaseConfigStatus.hasAnonKey ? "font-bold text-[#386047]" : "font-bold text-[#b94a48]"}>
+                {supabaseConfigStatus.hasAnonKey ? "設定済み" : "未設定"}
+              </span>
+            </div>
+          </div>
           <pre className="mt-5 overflow-x-auto bg-[#18201c] p-4 text-sm text-white">
-            {`NEXT_PUBLIC_SUPABASE_URL=your-project-url
+            {`NEXT_PUBLIC_SUPABASE_URL=${supabaseConfigStatus.url || "your-project-url"}
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key`}
           </pre>
           <p className="mt-4 text-sm text-[#66736a]">
