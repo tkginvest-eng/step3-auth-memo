@@ -45,6 +45,18 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+function getAuthMessage(message: string) {
+  if (message.toLowerCase().includes("email signups are disabled")) {
+    return "Supabase側でメール登録が無効です。Authentication > Sign In / Providers > Email を有効にしてください。";
+  }
+
+  if (message.toLowerCase().includes("invalid login credentials")) {
+    return "メールアドレスまたはパスワードが違います。新規登録済みか確認してください。";
+  }
+
+  return message;
+}
+
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
@@ -153,7 +165,7 @@ export default function Home() {
     setIsSaving(false);
 
     if (error) {
-      setAuthMessage(error.message);
+      setAuthMessage(getAuthMessage(error.message));
       return;
     }
 
